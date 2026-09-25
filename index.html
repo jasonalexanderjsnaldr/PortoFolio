@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jason Alexander Wijaya - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span>JW.</span> Jason's Portofolio
+        </div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#personal-projects">Personal Projects</a></li>
+            <li><a href="#projects">Course Projects</a></li>
+            <li><a href="#contact" class="btn-contact">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero reveal">
+        <div class="hero-content">
+            <div class="badge">
+                <span class="dot"></span> Open to Internship Opportunities
+            </div>
+            <h1 class="typing-wrapper">
+                <span id="typed-text"></span><span class="cursor">|</span>
+            </h1>
+            <h2>Computer Science Student at BINUS University</h2>
+            <p>Highly-accomplished Computer Science student (3.60 GPA) with strong foundations in Python, MySQL, and Data Analytics. Actively driving impact through organizational leadership and volunteer projects. Ready to contribute technical expertise to real-world software & data challenges.</p>
+            <div class="hero-buttons">
+                <!-- REVISI: View Repositories ke GitHub, Explore Project scroll ke projects -->
+                <a href="https://github.com/jasonalexanderjsnaldr" target="_blank" class="btn-primary">View Repositories</a>
+                <a href="#personal-projects" class="btn-secondary">Explore Project</a>
+                <a href="#contact" class="btn-secondary">Contact Me</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Summary / Stats -->
+    <section id="about" class="section reveal">
+        <div class="section-header">
+            <span class="section-tag">ABOUT ME</span>
+            <h2>Professional Summary</h2>
+        </div>
+        <p class="summary-text">Currently in 5th semester at BINUS University, specializing in software logic, database architecture, and data visualization. Combining technical execution with strong collaboration skills honed through organizational roles and volunteer initiatives. Eager to accelerate business processes by structuring data into actionable insights.</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card gpa-card">
+                <div class="gpa-gauge">
+                    <svg viewBox="0 0 120 70" class="gauge-svg">
+                        <defs>
+                            <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#06B6D4" />
+                                <stop offset="100%" stop-color="#3B82F6" />
+                            </linearGradient>
+                        </defs>
+                        <path class="gauge-bg" d="M 10 60 A 50 50 0 0 1 110 60" fill="none" stroke-width="12" stroke-linecap="round"/>
+                        <path class="gauge-fill" d="M 10 60 A 50 50 0 0 1 110 60" fill="none" stroke-width="12" stroke-linecap="round"/>
+                    </svg>
+                    <div class="gpa-value">
+                        <span class="current">3.60</span>
+                        <span class="total">/ 4.00</span>
+                    </div>
+                </div>
+                <p>Cumulative GPA</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>5th Semester</h3>
+                <p>BINUS University Progress</p>
+            </div>
+            <div class="stat-card">
+                <h3>2024 - 2028</h3>
+                <p>Expected Graduation</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills & Technologies -->
+    <section id="skills" class="section reveal">
+        <div class="section-header">
+            <span class="section-tag">TECHNICAL SKILLS</span>
+            <h2>Skills & Technologies</h2>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-card"><i class="fab fa-python"></i> <span>Python</span></div>
+            <div class="skill-card"><i class="fab fa-java"></i> <span>Java</span></div>
+            <div class="skill-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png" alt="C" class="skill-logo">
+                <span>C</span>
+            </div>
+            <div class="skill-card"><i class="fab fa-js"></i> <span>JavaScript</span></div>
+            <div class="skill-card"><i class="fab fa-html5"></i> <span>HTML5</span></div>
+            <div class="skill-card"><i class="fab fa-css3-alt"></i> <span>CSS3</span></div>
+            <div class="skill-card"><i class="fas fa-database"></i> <span>MySQL</span></div>
+            <div class="skill-card">
+                <svg class="skill-svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                    <path d="M12 2L2 22h20L12 2z"/>
+                </svg>
+                <span>Vercel</span>
+            </div>
+            <div class="skill-card"><i class="fas fa-chart-bar"></i> <span>Power BI</span></div>
+            <div class="skill-card"><i class="fas fa-database"></i> <span>Pentaho</span></div>
+            <div class="skill-card"><i class="fas fa-chart-pie"></i> <span>Tableau</span></div>
+            <div class="skill-card"><i class="fas fa-file-excel"></i> <span>Excel</span></div>
+            <div class="skill-card"><i class="fab fa-figma"></i> <span>Figma</span></div>
+            <div class="skill-card"><i class="fas fa-file-word"></i> <span>Word</span></div>
+            <div class="skill-card"><i class="fas fa-file-powerpoint"></i> <span>PowerPoint</span></div>
+            <div class="skill-card">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg" alt="Canva" class="skill-logo">
+                <span>Canva</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Projects -->
+    <section id="personal-projects" class="section reveal">
+        <div class="section-header">
+            <span class="section-tag">SELF-INITIATED</span>
+            <h2>Personal Projects</h2>
+        </div>
+        <div class="projects-container">
+            <div class="project-card">
+                <div class="project-info">
+                    <span class="project-date">2026</span>
+                    <h3>Disease Detector</h3>
+                    <p>Developed an end-to-end machine learning web application that predicts diseases from user-reported symptoms and recommends relevant medical specialists. Trained and evaluated multiple classification models (Random Forest, Decision Tree, Naive Bayes, Logistic Regression) using scikit-learn, built a Flask backend with a responsive frontend, and deployed it on PythonAnywhere with version control managed through Git and GitHub.</p>
+                    <div class="tech-stack">
+                        <span>Jupyter Notebook</span>
+                        <span>Pyhton</span>
+                        <span>PythonAnywhere</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/jasonalexanderjsnaldr/Disease-Detector" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://jsnaldr.pythonanywhere.com/" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-info">
+                    <span class="project-date">2026</span>
+                    <h3>ACON POS</h3>
+                    <p>Designed and developed a full-featured Point of Sale (POS) system for retail stores, optimized for desktop and tablet use, covering inventory management with tiered supplier discounts, sales processing, debt tracking, returns, and financial reporting. Built with HTML, CSS, and vanilla JavaScript on the frontend, integrated with Supabase (PostgreSQL) as a centralized backend database, and equipped with a manual data backup and restore feature as an added data-safety measure. Deployed on Vercel via GitHub.</p>
+                    <div class="tech-stack">
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>JavaScript</span>
+                        <span>Supabase</span>
+                        <span>Vercel</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/jasonalexanderjsnaldr/BINUS.POS" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://acon-pos.vercel.app/" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Course Projects (3 Projects) -->
+    <section id="projects" class="section reveal">
+        <div class="section-header">
+            <span class="section-tag">ACADEMIC</span>
+            <h2>Featured Course Projects</h2>
+        </div>
+        <div class="projects-container">
+            <div class="project-card">
+                <div class="project-info">
+                    <span class="project-date">2025</span>
+                    <h3>Christian Wijaya</h3>
+                    <p>Built a data pipeline and interactive dashboard that processed 5 years of sales data, identifying trends that optimized operational workflow using MySQL and Python scripts.</p>
+                    <div class="tech-stack">
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/jasonalexanderjsnaldr" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-info">
+                    <span class="project-date">2026</span>
+                    <h3>Softwate Engineering</h3>
+                    <p>Created a responsive web portal for a local business, integrating an admin dashboard for data entry and generating real-time reports using Laravel and Bootstrap.</p>
+                    <div class="tech-stack">
+                        <span>Laravel</span>
+                        <span>PHP</span>
+                        <span>MySQL</span>
+                        <span>Bootstrap</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/jasonalexanderjsnaldr" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-info">
+                    <span class="project-date">2024 / 2025</span>
+                    <h3>Machine Learning Prediction Model</h3>
+                    <p>Developed a supervised learning model to predict customer churn using scikit-learn, achieving 87% accuracy through feature engineering and hyperparameter tuning.</p>
+                    <div class="tech-stack">
+                        <span>Python</span>
+                        <span>scikit-learn</span>
+                        <span>Pandas</span>
+                        <span>Matplotlib</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/jasonalexanderjsnaldr" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Organizations & Volunteering -->
+    <section id="organizations" class="section reveal">
+        <div class="section-header">
+            <span class="section-tag">LEADERSHIP & IMPACT</span>
+            <h2>Organizations & Volunteering</h2>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">[ 2024 – 2025 ]</div>
+                <div class="timeline-content">
+                    <h3>Member — HIMTI BINUS</h3>
+                    <p>Actively collaborated in study clubs and tech initiatives, contributing to campus-wide events and workshops.</p>
+                    <div class="tags">
+                        <span>Event Management</span>
+                        <span>Public Speaking</span>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">[ 2025 ]</div>
+                <div class="timeline-content">
+                    <h3>Volunteer — Waisak Celebration at Borobudur Temple</h3>
+                    <p>Coordinated logistical support during the annual Waisak religious event, accommodating thousands of international visitors.</p>
+                    <div class="tags">
+                        <span>Community Service</span>
+                        <span>Event Logistics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact" class="footer reveal">
+        <div class="footer-content">
+            <div class="footer-text">
+                <span class="section-tag">GET IN TOUCH</span>
+                <h2>Ready to contribute as an IT / Data Analyst Intern.</h2>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p>jason.jzhu168@gmail.com</p>
+                        <p>jason.wijaya013@binus.ac.id</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Phone / WA</h4>
+                        <p>0823-2263-1688</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-instagram"></i>
+                    <div>
+                        <h4>Instagram</h4>
+                        <p>@jsnaldr</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-github"></i>
+                    <div>
+                        <h4>GitHub</h4>
+                        <p>github.com/jasonalexanderjsnaldr</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-linkedin"></i>
+                    <div>
+                        <h4>LinkedIn</h4>
+                        <p>linkedin.com/in/jason-alexander</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Location</h4>
+                        <p>Jakarta, Indonesia</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="https://instagram.com/jsnaldr" target="_blank" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://github.com/jasonalexanderjsnaldr" target="_blank" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/jason-alexander-230849303/" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="mailto:jason.jzhu168@gmail.com" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Jason Alexander Wijaya. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
