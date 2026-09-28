@@ -986,3 +986,26 @@ body{transition:background-color .4s,color .4s}
 @media (max-width:992px){.dots{display:none}}
 
 @media (prefers-reduced-motion:reduce){.hero h1:hover #typed-text{animation:none}}
+
+/* ===== extra4.css — galeri foto kegiatan + lightbox ===== */
+.photo-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-top:1.5rem}
+.photo-slot{position:relative;margin:0;aspect-ratio:4/3;border-radius:14px;overflow:hidden;border:1px solid var(--border-color);background:var(--card-bg);transition:var(--transition)}
+.photo-slot img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.photo-slot:not(.empty){cursor:zoom-in}
+.photo-slot:not(.empty):hover{border-color:var(--accent-1);transform:translateY(-4px);box-shadow:0 12px 30px rgba(6,182,212,.2)}
+.photo-slot:not(.empty):hover img{transform:scale(1.08)}
+.photo-slot figcaption{position:absolute;inset:auto 0 0 0;padding:1.4rem .8rem .6rem;font-size:.75rem;color:#fff;background:linear-gradient(transparent,rgba(2,6,23,.85));opacity:0;transform:translateY(8px);transition:var(--transition)}
+.photo-slot:hover figcaption{opacity:1;transform:none}
+.photo-slot.empty{border:2px dashed var(--border-color);background:transparent}
+.photo-slot.empty figcaption{display:none}
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;padding:.5rem;text-align:center;color:var(--text-muted)}
+.ph i{font-size:1.6rem;color:var(--accent-1)}
+.ph span{font-weight:600;font-size:.85rem}
+.ph code{font-size:.68rem;opacity:.7;word-break:break-all}
+@media (hover:none){.photo-slot figcaption{opacity:1;transform:none}}
+.lightbox{position:fixed;inset:0;z-index:1450;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(2,6,23,.92);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s;cursor:zoom-out}
+.lightbox.open{opacity:1;pointer-events:auto}
+.lightbox img{max-width:92vw;max-height:80vh;border-radius:12px;box-shadow:0 20px 80px rgba(0,0,0,.6);transform:scale(.92);transition:transform .3s}
+.lightbox.open img{transform:none}
+.lightbox p{margin-top:1rem;color:#cbd5e1;font-size:.9rem}
+.lightbox button{position:absolute;top:1rem;right:1.4rem;padding:0;border:0;background:none;color:#fff;font-size:2.4rem;line-height:1;cursor:pointer}
