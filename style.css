@@ -801,7 +801,6 @@ a {
   .stagger:not(.in){opacity:1}
 }
 
-
 /* --- FILTER SKILLS --- */
 .skill-filters{display:flex;flex-wrap:wrap;gap:.8rem;margin-bottom:2rem}
 .filter-chip{font-family:'Inter',sans-serif;padding:.6rem 1.4rem;border-radius:50px;border:1px solid var(--border-color);background:transparent;color:var(--text-muted);font-size:.95rem;font-weight:500;cursor:pointer;transition:var(--transition)}
@@ -823,8 +822,7 @@ body{transition:background-color .4s,color .4s}
 .roles b.in{animation:role .6s cubic-bezier(.2,.8,.2,1)}
 @keyframes role{from{opacity:0;transform:translateY(.6em);filter:blur(4px)}}
 
-/* Project: filter & flash */
-.project-card.hide{display:none}
+/* Project: flash */
 .flash{animation:flash 1s ease-out 2}
 @keyframes flash{from{box-shadow:0 0 0 0 rgba(6,182,212,.8)}to{box-shadow:0 0 0 26px rgba(6,182,212,0)}}
 
