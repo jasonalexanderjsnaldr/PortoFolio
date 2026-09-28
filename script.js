@@ -690,3 +690,112 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+/* ===== extra2.js — tambahan ronde 3, tidak mengubah kode di atas ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+  const el = (t, c, h, p) => { const e = document.createElement(t); if (c) e.className = c; if (h) e.innerHTML = h; if (p) p.append(e); return e; };
+
+  /* 1. Skill Sphere 3D: skill berputar di bola, klik untuk lihat dipakai di project mana */
+  const sk = $('#skills'), names = $$('#skills .skill-card span').map(s => s.textContent.trim());
+  if (sk && names.length > 2) {
+    const box = el('div', 'sphere', '<canvas></canvas><p>Hover to spin · click a skill to see where I used it</p>');
+    $('.section-header', sk).after(box);
+    const cv = $('canvas', box), c = cv.getContext('2d'), cs = getComputedStyle(document.documentElement), n = names.length;
+    const pts = names.map((name, i) => { const y = 1 - 2 * i / (n - 1), r = Math.sqrt(1 - y * y), a = i * 2.4; return { name, x: Math.cos(a) * r, y, z: Math.sin(a) * r }; });
+    let W = 0, H = 0, vx = .002, vy = .006, px = -1, py = -1, over = false, hot = -1, seen = true;
+    const fit = () => { const d = devicePixelRatio || 1; W = cv.clientWidth; H = cv.clientHeight; cv.width = W * d; cv.height = H * d; c.setTransform(d, 0, 0, d, 0, 0); };
+    fit(); addEventListener('resize', fit);
+    new IntersectionObserver(e => { seen = e[0].isIntersecting; }).observe(box);
+    const aim = e => { const r = cv.getBoundingClientRect(); px = e.clientX - r.left; py = e.clientY - r.top; over = true; };
+    cv.addEventListener('pointermove', aim);
+    cv.addEventListener('pointerdown', aim);
+    cv.addEventListener('pointerleave', e => { over = false; if (e.pointerType === 'mouse') hot = -1; });
+    cv.addEventListener('click', () => {
+      const card = hot > -1 && $$('#skills .skill-card').find(k => $('span', k).textContent.trim() === pts[hot].name);
+      if (!card) return;
+      card.click();
+      const pn = $('.skill-panel');
+      if (pn) pn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    (function loop() {
+      requestAnimationFrame(loop);
+      if (!seen) return;
+      const on = over && !reduce;
+      vy += ((on ? (px / W - .5) * .05 : reduce ? 0 : .006) - vy) * .06;
+      vx += ((on ? -(py / H - .5) * .05 : reduce ? 0 : .002) - vx) * .06;
+      const cY = Math.cos(vy), sY = Math.sin(vy), cX = Math.cos(vx), sX = Math.sin(vx);
+      pts.forEach(p => {
+        const x = p.x * cY + p.z * sY, z = -p.x * sY + p.z * cY;
+        const y = p.y * cX - z * sX, z2 = p.y * sX + z * cX;
+        p.x = x; p.y = y; p.z = z2;
+      });
+      const R = Math.min(W * .3, H * .27);
+      const col = cs.getPropertyValue('--text-main').trim() || '#F8FAFC', acc = cs.getPropertyValue('--accent-1').trim() || '#06B6D4';
+      c.clearRect(0, 0, W, H);
+      c.textAlign = 'center'; c.textBaseline = 'middle';
+      const pr = pts.map((p, i) => {
+        const k = 2.2 / (2.2 - p.z), d = (p.z + 1) / 2;
+        return { i, name: p.name, d, s: 12 + 12 * d, x: W / 2 + p.x * R * k, y: H / 2 + p.y * R * k };
+      }).sort((a, b) => a.d - b.d);
+      if (over) {
+        hot = -1;
+        for (let j = pr.length - 1; j >= 0; j--) {
+          const q = pr[j];
+          if (q.d < .4) break;
+          c.font = `600 ${q.s}px Outfit,sans-serif`;
+          if (Math.abs(px - q.x) < c.measureText(q.name).width / 2 + 10 && Math.abs(py - q.y) < q.s / 2 + 6) { hot = q.i; break; }
+        }
+      }
+      cv.style.cursor = hot > -1 ? 'pointer' : 'grab';
+      pr.forEach(q => {
+        c.font = `600 ${q.s}px Outfit,sans-serif`;
+        if (q.i === hot) {
+          const w = c.measureText(q.name).width + 24;
+          c.globalAlpha = 1; c.fillStyle = 'rgba(6,182,212,.2)'; c.strokeStyle = acc; c.lineWidth = 1.5;
+          c.beginPath(); c.roundRect(q.x - w / 2, q.y - q.s / 2 - 7, w, q.s + 14, 20); c.fill(); c.stroke();
+          c.fillStyle = acc;
+        } else { c.globalAlpha = .2 + .8 * q.d; c.fillStyle = col; }
+        c.fillText(q.name, q.x, q.y);
+      });
+      c.globalAlpha = 1;
+    })();
+  }
+
+  /* 2. Ganti tema dengan lingkaran yang melebar dari tombolnya */
+  const tb = $('.nav-btn.icon');
+  if (tb && tb.onclick && document.startViewTransition && !reduce) {
+    const orig = tb.onclick;
+    tb.onclick = e => {
+      const r = tb.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+      const rad = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      document.startViewTransition(() => orig.call(tb, e)).ready.then(() =>
+        document.documentElement.animate(
+          { clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${rad}px at ${x}px ${y}px)`] },
+          { duration: 800, easing: 'ease-in-out', pseudoElement: '::view-transition-new(root)' }));
+    };
+  }
+
+  /* 3. Hero memudar sinematik saat di-scroll */
+  const hero = $('#hero');
+  if (hero && !reduce) addEventListener('scroll', () => hero.style.setProperty('--hs', clamp(scrollY / (innerHeight * .9))), { passive: true });
+
+  /* 4. Titik navigasi section di sisi kanan */
+  const secs = [['hero', 'Top'], ['about', 'About'], ['skills', 'Skills'], ['personal-projects', 'Personal'], ['projects', 'Course'], ['organizations', 'Orgs'], ['contact', 'Contact']]
+    .filter(([id]) => document.getElementById(id));
+  const dots = el('nav', 'dots', null, document.body);
+  dots.setAttribute('aria-label', 'Sections');
+  const btns = secs.map(([id, label]) => {
+    const b = el('button', null, null, dots);
+    b.type = 'button'; b.dataset.l = label; b.setAttribute('aria-label', label);
+    b.onclick = () => document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    return b;
+  });
+  const so = new IntersectionObserver(en => en.forEach(x => {
+    if (x.isIntersecting) btns.forEach((b, i) => b.classList.toggle('on', secs[i][0] === x.target.id));
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  secs.forEach(([id]) => so.observe(document.getElementById(id)));
+});
