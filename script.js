@@ -565,3 +565,128 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   print('Welcome! Type "help" to see what I can do, or tap a command below.', 't-ok');
 });
+
+/* ===== extra.js — tambahan baru, tidak mengubah kode di atas ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+  const el = (t, c, h, p) => { const e = document.createElement(t); if (c) e.className = c; if (h) e.innerHTML = h; if (p) p.append(e); return e; };
+  const once = (list, fn, opt) => {
+    const io = new IntersectionObserver((en, ob) => en.forEach(x => { if (x.isIntersecting) { fn(x.target); ob.unobserve(x.target); } }), opt);
+    list.forEach(t => io.observe(t));
+  };
+
+  /* 1. Kursor cincin + titik + jejak komet */
+  if (fine && !reduce) {
+    const ring = el('div', 'cur', null, document.body), dot = el('div', 'cur-dot', null, document.body);
+    const tr = el('canvas', 'trail', null, document.body), tx = tr.getContext('2d'), hist = [];
+    const fit = () => { tr.width = innerWidth; tr.height = innerHeight; };
+    fit(); addEventListener('resize', fit);
+    let mx = 0, my = 0, rx = 0, ry = 0, inside = false;
+    addEventListener('pointermove', e => {
+      if (!inside) { rx = e.clientX; ry = e.clientY; inside = true; ring.classList.add('on'); dot.classList.add('on'); }
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+      ring.classList.toggle('link', !!(e.target.closest && e.target.closest('a,button,input,li,.skill-card,.copyable')));
+    });
+    addEventListener('pointerdown', () => ring.classList.add('down'));
+    addEventListener('pointerup', () => ring.classList.remove('down'));
+    document.documentElement.addEventListener('pointerleave', () => { inside = false; hist.length = 0; ring.classList.remove('on'); dot.classList.remove('on'); });
+    (function f() {
+      rx += (mx - rx) * .18; ry += (my - ry) * .18;
+      ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+      tx.clearRect(0, 0, tr.width, tr.height);
+      if (inside) {
+        hist.push([mx, my]); if (hist.length > 26) hist.shift();
+        tx.lineCap = 'round';
+        for (let i = 1; i < hist.length; i++) {
+          const a = hist[i - 1], b = hist[i], t = i / hist.length;
+          if (Math.hypot(b[0] - a[0], b[1] - a[1]) < .5) continue;
+          tx.strokeStyle = `rgba(6,182,212,${t * .55})`; tx.lineWidth = t * 8;
+          tx.beginPath(); tx.moveTo(a[0], a[1]); tx.lineTo(b[0], b[1]); tx.stroke();
+        }
+      }
+      requestAnimationFrame(f);
+    })();
+  }
+
+  /* 2. Hero: token kode melayang dengan kedalaman (parallax) */
+  const hero = $('#hero');
+  if (hero) {
+    const tk = el('div', 'tokens', null, hero);
+    tk.setAttribute('aria-hidden', 'true');
+    ['</>', 'SELECT *', 'import pandas', 'df.head()', 'JOIN', 'ETL', 'DAX', 'Spark', '{ }', 'git push', '0101', 'GROUP BY'].forEach((t, i) => {
+      const s = el('span', null, null, tk);
+      s.textContent = t;
+      s.style.cssText = `left:${(i * 37 + 6) % 92}%;top:${(i * 53 + 8) % 86}%;--k:${(.4 + (i % 5) * .3).toFixed(1)};animation-delay:${-i * 1.3}s`;
+    });
+    if (!reduce) hero.addEventListener('pointermove', e => {
+      const r = hero.getBoundingClientRect();
+      hero.style.setProperty('--px', ((e.clientX - r.left) / r.width - .5) * 2);
+      hero.style.setProperty('--py', ((e.clientY - r.top) / r.height - .5) * 2);
+    });
+  }
+
+  /* 3. Ringkasan: kata-kata menyala satu per satu saat di-scroll */
+  const st = $('.summary-text');
+  if (st && !reduce) {
+    const ws = st.textContent.trim().split(/\s+/).map(w => { const s = el('span', 'w'); s.textContent = w + ' '; return s; });
+    st.textContent = '';
+    st.append(...ws);
+    const upd = () => {
+      const n = clamp((innerHeight * .85 - st.getBoundingClientRect().top) / (innerHeight * .45)) * ws.length;
+      ws.forEach((s, i) => s.classList.toggle('lit', i < n));
+    };
+    addEventListener('scroll', upd, { passive: true });
+    upd();
+  }
+
+  /* 4. Marquee teknologi miring mengikuti kecepatan scroll */
+  const mq = $('.marquee');
+  if (mq && !reduce) {
+    let ly = scrollY, tm;
+    addEventListener('scroll', () => {
+      mq.style.setProperty('--sk', clamp((scrollY - ly) * .6, -14, 14) + 'deg');
+      ly = scrollY;
+      clearTimeout(tm);
+      tm = setTimeout(() => mq.style.setProperty('--sk', '0deg'), 100);
+    }, { passive: true });
+  }
+
+  /* 5. Judul section "terdekripsi" saat muncul */
+  const G = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/{}_';
+  if (!reduce) once($$('.section-header h2'), h => {
+    const s = h.textContent, t0 = performance.now();
+    h.setAttribute('aria-label', s);
+    (function f(t) {
+      const p = (t - t0) / 800;
+      h.textContent = p >= 1 ? s : [...s].map((ch, i) => /[\s&]/.test(ch) || i / s.length < p ? ch : G[Math.random() * G.length | 0]).join('');
+      if (p < 1) requestAnimationFrame(f);
+    })(t0);
+  }, { threshold: .9 });
+
+  /* 6. Garis timeline menyala sesuai posisi scroll */
+  const tl = $('.timeline');
+  if (tl) {
+    const upd = () => tl.style.setProperty('--tp', clamp((innerHeight * .65 - tl.getBoundingClientRect().top) / tl.getBoundingClientRect().height));
+    addEventListener('scroll', upd, { passive: true });
+    upd();
+  }
+
+  /* 7. Teks raksasa "Let's work together": terisi warna di mana kursor berada */
+  const foot = $('#contact');
+  if (foot) {
+    const a = el('a', 'big-cta', '<span>Let\'s work together</span><small>jason.jzhu168@gmail.com</small>');
+    a.href = 'mailto:jason.jzhu168@gmail.com';
+    foot.before(a);
+    const sp = $('span', a);
+    a.addEventListener('pointermove', e => {
+      const r = sp.getBoundingClientRect();
+      sp.style.setProperty('--mx', e.clientX - r.left + 'px');
+      sp.style.setProperty('--my', e.clientY - r.top + 'px');
+    });
+  }
+});
