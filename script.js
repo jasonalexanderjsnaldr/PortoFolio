@@ -799,3 +799,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }), { rootMargin: '-45% 0px -50% 0px' });
   secs.forEach(([id]) => so.observe(document.getElementById(id)));
 });
+
+/* ===== extra3.js — perbaikan: section yang sangat tinggi (misal di HP) tidak pernah muncul ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  const io = new IntersectionObserver((en, ob) => en.forEach(x => {
+    if (x.isIntersecting) { x.target.classList.add('show'); ob.unobserve(x.target); }
+  }), { rootMargin: '0px 0px -25% 0px' });
+  document.querySelectorAll('.reveal:not(.show)').forEach(e => io.observe(e));
+});
