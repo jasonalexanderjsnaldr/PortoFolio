@@ -81,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-/* enhance.js — tambahan interaksi. script.js tidak diubah. */
 document.addEventListener('DOMContentLoaded', () => {
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -271,7 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.before(bar);
 });
 
-/* extra.js — tambahan murni. script.js & style.css TIDAK diubah. */
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -363,31 +361,6 @@ document.addEventListener('DOMContentLoaded', () => {
     swap();
     setInterval(swap, 2400);
   }
-
-  /* 5. Filter project berdasarkan teknologi */
-  $$('.projects-container').forEach(box => {
-    const cards = $$('.project-card', box), count = {};
-    cards.forEach(c => $$('.tech-stack span', c).forEach(s => {
-      const t = s.textContent.trim();
-      count[t] = (count[t] || 0) + 1;
-    }));
-    const tags = Object.keys(count).filter(t => count[t] > 1).sort((a, b) => count[b] - count[a]).slice(0, 6);
-    if (!tags.length) return;
-    const bar = el('div', 'skill-filters');
-    ['All', ...tags].forEach((t, i) => {
-      const b = el('button', 'filter-chip' + (i ? '' : ' active'), null, bar);
-      b.textContent = t;
-      b.onclick = () => {
-        $$('.filter-chip', bar).forEach(c => c.classList.toggle('active', c === b));
-        cards.forEach(c => {
-          const on = !i || $$('.tech-stack span', c).some(s => s.textContent.trim() === t);
-          c.classList.toggle('hide', !on);
-          if (on && !reduce) c.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 450, easing: 'ease-out' });
-        });
-      };
-    });
-    box.before(bar);
-  });
 
   /* 7. Klik skill -> lihat dipakai di project mana */
   const grid = $('.skills-grid');
