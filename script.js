@@ -77,7 +77,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    setTimeout(typeName, 500);
+    // Mulai mengetik setelah intro loading selesai (dipanggil dari bagian wow di bawah)
+    let typingStarted = false;
+    window.startTyping = () => {
+        if (typingStarted) return;
+        typingStarted = true;
+        typedTextElement.textContent = '';
+        charIndex = 0;
+        typeName();
+    };
+    setTimeout(window.startTyping, 4000); // cadangan kalau intro tidak berjalan
 
 });
 
@@ -448,3 +457,111 @@ document.addEventListener('DOMContentLoaded', () => {
     else if (shown.length && e.key === 'ArrowUp') { e.preventDefault(); sel = (sel - 1 + shown.length) % shown.length; render(); }
   });
 })();
+
+/* ===== wow.js — tambahan baru, tidak mengubah script.js ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const el = (tag, cls, html, parent) => {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html) e.innerHTML = html;
+    if (parent) parent.append(e);
+    return e;
+  };
+  const skills = $$('.skill-card span').map(s => s.textContent.trim());
+  const cards = $$('.project-card');
+  const reveal = new IntersectionObserver((en, ob) => en.forEach(x => {
+    if (x.isIntersecting) { x.target.classList.add('show'); ob.unobserve(x.target); }
+  }), { threshold: .15 });
+
+  /* 1. Intro: logo + loading 0-100%, lalu nama diketik dari awal */
+  const startTyping = () => window.startTyping && window.startTyping();
+  if (reduce) {
+    setTimeout(startTyping, 300);
+  } else {
+    const intro = el('div', 'intro', '<div class="intro-in"><div class="intro-logo">JW.</div><div class="intro-line"><i></i></div><div class="intro-pct">0%</div></div>', document.body);
+    const pct = $('.intro-pct', intro), t0 = performance.now();
+    (function n(t) {
+      const p = Math.max(0, Math.min(100, Math.round((t - t0 - 300) / 12)));
+      pct.textContent = p + '%';
+      if (p < 100) requestAnimationFrame(n);
+    })(t0);
+    let done = false;
+    const finish = () => { if (done) return; done = true; intro.remove(); startTyping(); };
+    intro.addEventListener('animationend', e => { if (e.animationName === 'introOut') finish(); });
+    setTimeout(finish, 2200);
+  }
+
+  /* 2. Marquee teknologi di bawah hero */
+  const hero = $('#hero');
+  if (hero && skills.length) {
+    const m = el('div', 'marquee', '<div class="marquee-track"></div>');
+    m.setAttribute('aria-hidden', 'true');
+    [...skills, ...skills].forEach(s => { el('span', null, null, $('.marquee-track', m)).textContent = s; });
+    hero.after(m);
+  }
+
+  /* 3. Terminal interaktif */
+  const foot = $('#contact');
+  if (!foot) return;
+  const sec = el('section', 'section reveal', `<div class="section-header"><span class="section-tag">INTERACTIVE</span><h2>Ask My Terminal</h2></div>
+    <div class="term"><div class="term-bar"><i></i><i></i><i></i><span>jason@portfolio: ~</span></div>
+    <div class="term-body"><div class="term-out"></div><label class="term-row"><b>$</b><input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal input"></label></div></div>
+    <div class="term-chips"></div>`);
+  foot.before(sec);
+  reveal.observe(sec);
+
+  const out = $('.term-out', sec), inp = $('input', sec), body = $('.term-body', sec);
+  const print = (t, c) => { const d = el('div', c); d.textContent = t; out.append(d); body.scrollTop = body.scrollHeight; };
+  const lines = (arr, c) => arr.forEach(l => print(l, c));
+  const C = {
+    help: () => print('Commands: ' + Object.keys(C).join(', '), 't-ok'),
+    about: () => lines(['Jason Alexander Wijaya, Computer Science at BINUS University.',
+      '5th semester, GPA 3.60 / 4.00, expected graduation 2028.',
+      'Focus: data analytics, data engineering, and software logic.']),
+    skills: () => print(skills.join(', ')),
+    projects: () => { cards.forEach((c, i) => print(`[${i + 1}] ${$('h3', c).textContent.trim()}`)); print('Type "open <number>" to jump to a project.', 't-dim'); },
+    open: n => {
+      const c = cards[(+n || 0) - 1];
+      if (!c) return print('No project with that number. Type "projects" to see the list.', 't-err');
+      print('Opening ' + $('h3', c).textContent.trim() + '...', 't-ok');
+      c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      c.classList.add('flash');
+      setTimeout(() => c.classList.remove('flash'), 2200);
+    },
+    contact: () => lines(['Email    jason.jzhu168@gmail.com', 'LinkedIn linkedin.com/in/jasonalexander8', 'GitHub   github.com/jasonalexanderjsnaldr', 'Location Jakarta, Indonesia']),
+    theme: () => { const b = $('.nav-btn.icon'); if (b) b.click(); print('Theme switched.', 't-ok'); },
+    hire: () => {
+      lines(['Preparing offer letter...', 'Done. Jason is open to internships in data analytics, data science, and data engineering.'], 't-ok');
+      if (!reduce) for (let i = 0; i < 6; i++) setTimeout(() => dispatchEvent(new PointerEvent('pointerdown', { clientX: innerWidth * (.15 + .7 * Math.random()), clientY: innerHeight * .35 })), i * 140);
+    },
+    clear: () => out.replaceChildren()
+  };
+  const hist = []; let hi = 0;
+  const run = line => {
+    print('$ ' + line, 't-dim');
+    let [cmd, ...a] = line.toLowerCase().split(/\s+/);
+    if (cmd === 'sudo') cmd = a.shift();
+    if (C[cmd]) C[cmd](...a); else print(`command not found: ${cmd}. Type "help" to see what works.`, 't-err');
+  };
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && inp.value.trim()) {
+      hist.push(inp.value.trim()); hi = hist.length;
+      run(inp.value.trim()); inp.value = '';
+    } else if (e.key === 'ArrowUp' && hist.length) { e.preventDefault(); inp.value = hist[--hi < 0 ? (hi = 0) : hi]; }
+    else if (e.key === 'ArrowDown' && hist.length) { e.preventDefault(); inp.value = hist[++hi] || (hi = hist.length, ''); }
+    else if (e.key === 'Tab') {
+      const m = Object.keys(C).find(k => inp.value && k.startsWith(inp.value.toLowerCase()));
+      if (m) { e.preventDefault(); inp.value = m; }
+    }
+  });
+  body.addEventListener('click', () => inp.focus({ preventScroll: true }));
+  ['help', 'about', 'skills', 'projects', 'contact', 'sudo hire jason'].forEach(t => {
+    const b = el('button', 'chip-link', null, $('.term-chips', sec));
+    b.type = 'button'; b.textContent = t;
+    b.onclick = () => run(t);
+  });
+  print('Welcome! Type "help" to see what I can do, or tap a command below.', 't-ok');
+});
