@@ -236,6 +236,63 @@ a {
     color: var(--accent-1);
 }
 
+/* --- REVISI: TOMBOL VIEW RESUME & DOWNLOAD RESUME --- */
+.btn-resume-view {
+    padding: 0.8rem 1.8rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(6, 182, 212, 0.15);
+    color: var(--accent-1);
+    border: 1px solid var(--accent-1);
+    transition: var(--transition);
+}
+
+.btn-resume-view i {
+    font-size: 1rem;
+}
+
+.btn-resume-view:hover {
+    background: var(--accent-1);
+    color: var(--bg-color);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+}
+
+.btn-resume-download {
+    padding: 0.8rem 1.8rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--text-main);
+    border: 1px dashed var(--accent-1);
+    transition: var(--transition);
+}
+
+.btn-resume-download i {
+    font-size: 1rem;
+}
+
+.btn-resume-download:hover {
+    background: rgba(6, 182, 212, 0.1);
+    border-style: solid;
+    color: var(--accent-1);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.3);
+}
+/* --- END REVISI --- */
+
 /* --- GLOBAL SECTION STYLES --- */
 .section {
     padding: 6rem 10%;
