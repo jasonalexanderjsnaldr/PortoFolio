@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (h2) {
     const r = el('div', 'roles', 'Aspiring <b></b>');
     h2.after(r);
-    const w = $('b', r), list = ['Data Analyst', 'Data Scientist', 'Data Engineer'];
+    const w = $('b', r), list = ['Data Analyst', 'Business/BI Analyst', 'Data Engineer'];
     let i = 0;
     const swap = () => {
       w.textContent = list[i++ % list.length];
