@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Mobile Navigation Toggle
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
 
@@ -12,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // 2. Scroll Reveal Animation
     const revealElements = document.querySelectorAll('.reveal');
 
     const revealOptions = {
@@ -34,31 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         revealOnScroll.observe(el);
     });
 
-    const gpaCard = document.querySelector('.gpa-card');
-    const gaugeFill = document.querySelector('.gauge-fill');
-    
-    if (gpaCard && gaugeFill) {
-        const gpaObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const gpa = 3.60;
-                    const maxGpa = 4.00;
-                    const percentage = gpa / maxGpa;
-                    const totalLength = 157.08;
-                    const offset = totalLength * (1 - percentage);
-                    
-                    setTimeout(() => {
-                        gaugeFill.style.strokeDashoffset = offset;
-                    }, 300);
-                    
-                    gpaObserver.unobserve(gpaCard);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        gpaObserver.observe(gpaCard);
-    }
-
+    // 4. Typing Animation untuk Nama
     const typedTextElement = document.getElementById('typed-text');
     const fullName = "Jason Alexander Wijaya";
     let charIndex = 0;
@@ -72,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Mulai mengetik setelah intro loading selesai (dipanggil dari bagian wow di bawah)
     let typingStarted = false;
     window.startTyping = () => {
         if (typingStarted) return;
@@ -80,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         charIndex = 0;
         typeName();
     };
-    setTimeout(window.startTyping, 4000); 
+    setTimeout(window.startTyping, 4000); // cadangan kalau intro tidak berjalan
 
 });
 
@@ -95,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return e;
     };
 
+    // 1. Aurora, progress bar, cursor glow, tombol ke atas, toast
     add('div', 'aurora');
     const bar = add('div', 'scroll-progress');
     const glow = fine ? add('div', 'cursor-glow') : null;
@@ -116,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 2. Partikel jaringan interaktif di hero (menghindari kursor)
     const hero = document.getElementById('hero');
     if (hero && !reduce) {
         const cv = add('canvas', 'hero-canvas', hero);
@@ -163,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })();
     }
 
+    // 3. Kartu muncul bertahap
     const io = new IntersectionObserver((entries, ob) => entries.forEach(x => {
         if (x.isIntersecting) { x.target.classList.add('in'); ob.unobserve(x.target); }
     }), { threshold: 0.1 });
@@ -173,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
             io.observe(el);
         })));
 
+    // 4. Spotlight + efek miring 3D pada kartu
     $('.project-card, .stat-card, .skill-card').forEach(c => {
         c.classList.add('spot');
         c.addEventListener('pointermove', e => {
@@ -188,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         c.addEventListener('pointerleave', () => { c.style.transform = ''; c.style.transition = ''; });
     });
 
+    // 5. Tombol magnetik
     if (fine && !reduce) {
         $('.btn-primary, .btn-secondary, .btn-resume-download, .btn-resume-view, .social-links a').forEach(b => {
             b.addEventListener('pointermove', e => {
@@ -198,6 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 6. Menu navbar aktif sesuai bagian yang sedang dilihat
     const links = $('.nav-links a[href^="#"]');
     const so = new IntersectionObserver(en => en.forEach(x => {
         if (x.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + x.target.id));
@@ -207,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (s) so.observe(s);
     });
 
+    // 7. Klik info kontak untuk menyalin
     let t;
     const say = msg => {
         toast.textContent = msg;
@@ -224,6 +211,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+// 8. Filter kategori Skills
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.skills-grid');
     if (!grid) return;
@@ -288,6 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => c.classList.remove('flash'), 2200);
   };
 
+  /* 1. Tema terang / gelap */
   const root = document.documentElement;
   const nav = $('.navbar');
   const tools = el('div', 'nav-tools', null, nav);
@@ -307,6 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setTheme(saved);
   themeBtn.onclick = () => setTheme(root.dataset.theme === 'light' ? 'dark' : 'light');
 
+  /* 2. Confetti / percikan */
   const cv = el('canvas', 'fx', null, document.body);
   const cx = cv.getContext('2d');
   let ps = [], running = false;
@@ -339,11 +330,12 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   addEventListener('pointerdown', e => burst(e.clientX, e.clientY, 10, 3.5));
 
+  /* 3. Role yang berganti di hero */
   const h2 = $('.hero h2');
   if (h2) {
     const r = el('div', 'roles', 'Aspiring <b></b>');
     h2.after(r);
-    const w = $('b', r), list = ['Data Analyst', 'Business Analyst' , 'BI Analyst', 'Data Engineer'];
+    const w = $('b', r), list = ['Data Analyst', 'Data Scientist', 'Data Engineer'];
     let i = 0;
     const swap = () => {
       w.textContent = list[i++ % list.length];
@@ -353,6 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(swap, 2400);
   }
 
+  /* 7. Klik skill -> lihat dipakai di project mana */
   const grid = $('.skills-grid');
   if (grid) {
     const panel = el('div', 'skill-panel');
@@ -383,6 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
   }
 
+  /* 8. Command palette (Ctrl/Cmd + K) */
   const pal = el('div', 'palette',
     '<div class="pal-box"><input type="text" placeholder="Type a command or search… (Esc to close)" aria-label="Command palette"><ul></ul></div>',
     document.body);
@@ -438,6 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 
+/* ===== wow.js — tambahan baru, tidak mengubah script.js ===== */
 document.addEventListener('DOMContentLoaded', () => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -455,6 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (x.isIntersecting) { x.target.classList.add('show'); ob.unobserve(x.target); }
   }), { threshold: .15 });
 
+  /* 1. Intro: logo + loading 0-100%, lalu nama diketik dari awal */
   const startTyping = () => window.startTyping && window.startTyping();
   if (reduce) {
     setTimeout(startTyping, 300);
@@ -472,6 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(finish, 2200);
   }
 
+  /* 2. Marquee teknologi di bawah hero */
   const hero = $('#hero');
   if (hero && skills.length) {
     const m = el('div', 'marquee', '<div class="marquee-track"></div>');
@@ -480,6 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
     hero.after(m);
   }
 
+  /* 3. Terminal interaktif */
   const foot = $('#contact');
   if (!foot) return;
   const sec = el('section', 'section reveal', `<div class="section-header"><span class="section-tag">INTERACTIVE</span><h2>Ask My Terminal</h2></div>
@@ -495,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const C = {
     help: () => print('Commands: ' + Object.keys(C).join(', '), 't-ok'),
     about: () => lines(['Jason Alexander Wijaya, Computer Science at BINUS University.',
-      '5th semester, GPA 3.60 / 4.00, expected graduation 2028.',
+      '5th semester, expected graduation 2028.',
       'Focus: data analytics, data engineering, and software logic.']),
     skills: () => print(skills.join(', ')),
     projects: () => { cards.forEach((c, i) => print(`[${i + 1}] ${$('h3', c).textContent.trim()}`)); print('Type "open <number>" to jump to a project.', 't-dim'); },
@@ -542,6 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
   print('Welcome! Type "help" to see what I can do, or tap a command below.', 't-ok');
 });
 
+/* ===== extra.js — tambahan baru, tidak mengubah kode di atas ===== */
 document.addEventListener('DOMContentLoaded', () => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -554,6 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
     list.forEach(t => io.observe(t));
   };
 
+  /* 1. Kursor cincin + titik + jejak komet */
   if (fine && !reduce) {
     const ring = el('div', 'cur', null, document.body), dot = el('div', 'cur-dot', null, document.body);
     const tr = el('canvas', 'trail', null, document.body), tx = tr.getContext('2d'), hist = [];
@@ -587,6 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
   }
 
+  /* 2. Hero: token kode melayang dengan kedalaman (parallax) */
   const hero = $('#hero');
   if (hero) {
     const tk = el('div', 'tokens', null, hero);
@@ -603,6 +604,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* 3. Ringkasan: kata-kata menyala satu per satu saat di-scroll */
   const st = $('.summary-text');
   if (st && !reduce) {
     const ws = st.textContent.trim().split(/\s+/).map(w => { const s = el('span', 'w'); s.textContent = w + ' '; return s; });
@@ -616,6 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
     upd();
   }
 
+  /* 4. Marquee teknologi miring mengikuti kecepatan scroll */
   const mq = $('.marquee');
   if (mq && !reduce) {
     let ly = scrollY, tm;
@@ -627,6 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
+  /* 5. Judul section "terdekripsi" saat muncul */
   const G = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/{}_';
   if (!reduce) once($$('.section-header h2'), h => {
     const s = h.textContent, t0 = performance.now();
@@ -638,6 +642,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })(t0);
   }, { threshold: .9 });
 
+  /* 6. Garis timeline menyala sesuai posisi scroll */
   const tl = $('.timeline');
   if (tl) {
     const upd = () => tl.style.setProperty('--tp', clamp((innerHeight * .65 - tl.getBoundingClientRect().top) / tl.getBoundingClientRect().height));
@@ -645,6 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
     upd();
   }
 
+  /* 7. Teks raksasa "Let's work together": terisi warna di mana kursor berada */
   const foot = $('#contact');
   if (foot) {
     const a = el('a', 'big-cta', '<span>Let\'s work together</span><small>jason.jzhu168@gmail.com</small>');
@@ -659,6 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+/* ===== extra2.js — tambahan ronde 3, tidak mengubah kode di atas ===== */
 document.addEventListener('DOMContentLoaded', () => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -666,6 +673,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
   const el = (t, c, h, p) => { const e = document.createElement(t); if (c) e.className = c; if (h) e.innerHTML = h; if (p) p.append(e); return e; };
 
+  /* 1. Skill Sphere 3D: skill berputar di bola, klik untuk lihat dipakai di project mana */
   const sk = $('#skills'), names = $$('#skills .skill-card span').map(s => s.textContent.trim());
   if (sk && names.length > 2) {
     const box = el('div', 'sphere', '<canvas></canvas><p>Hover to spin · click a skill to see where I used it</p>');
@@ -731,6 +739,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
   }
 
+  /* 2. Ganti tema dengan lingkaran yang melebar dari tombolnya */
   const tb = $('.nav-btn.icon');
   if (tb && tb.onclick && document.startViewTransition && !reduce) {
     const orig = tb.onclick;
@@ -744,9 +753,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
+  /* 3. Hero memudar sinematik saat di-scroll */
   const hero = $('#hero');
   if (hero && !reduce) addEventListener('scroll', () => hero.style.setProperty('--hs', clamp(scrollY / (innerHeight * .9))), { passive: true });
 
+  /* 4. Titik navigasi section di sisi kanan */
   const secs = [['hero', 'Top'], ['about', 'About'], ['skills', 'Skills'], ['personal-projects', 'Personal'], ['projects', 'Course'], ['organizations', 'Orgs'], ['contact', 'Contact']]
     .filter(([id]) => document.getElementById(id));
   const dots = el('nav', 'dots', null, document.body);
@@ -763,6 +774,7 @@ document.addEventListener('DOMContentLoaded', () => {
   secs.forEach(([id]) => so.observe(document.getElementById(id)));
 });
 
+/* ===== extra3.js — perbaikan: section yang sangat tinggi (misal di HP) tidak pernah muncul ===== */
 document.addEventListener('DOMContentLoaded', () => {
   const io = new IntersectionObserver((en, ob) => en.forEach(x => {
     if (x.isIntersecting) { x.target.classList.add('show'); ob.unobserve(x.target); }
@@ -770,6 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.reveal:not(.show)').forEach(e => io.observe(e));
 });
 
+/* ===== extra4.js — galeri foto kegiatan + lightbox ===== */
 document.addEventListener('DOMContentLoaded', () => {
   const exts = ['jpg', 'jpeg', 'png', 'webp'];
   const box = document.createElement('div');
@@ -782,12 +795,14 @@ document.addEventListener('DOMContentLoaded', () => {
   addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 
   document.querySelectorAll('.photo-gallery').forEach(g => {
-    const { name, count = 3, folder = 'images' } = g.dataset;
+    const { name, count = 3, folder } = g.dataset;
+    const dirs = folder ? [folder] : ['files/foto', 'foto', 'images'];
     const caps = (g.dataset.captions || '').split('|');
     for (let i = 1; i <= +count; i++) {
       const text = caps[i - 1] || `Documentation ${i}`, fig = document.createElement('figure');
+      const urls = dirs.flatMap(d => exts.map(x => `${d}/${name}-${i}.${x}`));
       fig.className = 'photo-slot empty';
-      fig.innerHTML = `<div class="ph"><i class="fas fa-camera"></i><span>Add photo ${i}</span><code>${folder}/${name}-${i}.jpg</code></div><figcaption>${text}</figcaption>`;
+      fig.innerHTML = `<div class="ph"><i class="fas fa-camera"></i><span>Add photo ${i}</span><code>${dirs[0]}/${name}-${i}.jpg</code></div><figcaption>${text}</figcaption>`;
       g.append(fig);
       let k = 0;
       const img = new Image();
@@ -801,8 +816,28 @@ document.addEventListener('DOMContentLoaded', () => {
         fig.onclick = open;
         fig.onkeydown = e => { if (e.key === 'Enter') open(); };
       };
-      img.onerror = () => { if (++k < exts.length) img.src = `${folder}/${name}-${i}.${exts[k]}`; };
-      img.src = `${folder}/${name}-${i}.${exts[0]}`;
+      img.onerror = () => { if (++k < urls.length) img.src = urls[k]; };
+      img.src = urls[0];
     }
   });
+});
+
+/* ===== extra5.js — muat foto profil otomatis ke hero ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  const frame = document.getElementById('avatar-frame');
+  if (!frame) return;
+  const exts = ['jpg', 'jpeg', 'png', 'webp'];
+  const dirs = ['images', 'files/foto', 'foto'];
+  const urls = dirs.flatMap(d => exts.map(x => `${d}/profile.${x}`));
+  let k = 0;
+  const img = new Image();
+  img.alt = 'Jason Alexander Wijaya';
+  img.decoding = 'async';
+  img.onload = () => {
+    frame.classList.add('filled');
+    frame.querySelector('.avatar-slot').remove();
+    frame.prepend(img);
+  };
+  img.onerror = () => { if (++k < urls.length) img.src = urls[k]; };
+  img.src = urls[0];
 });
