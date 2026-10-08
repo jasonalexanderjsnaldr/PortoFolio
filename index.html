@@ -30,6 +30,14 @@
     <!-- Hero Section -->
     <section id="hero" class="hero reveal">
         <div class="hero-content">
+            <!-- FOTO PROFIL: simpan sebagai images/profile.jpg (boleh .jpeg/.png/.webp), taruh di folder yang sama dengan index.html -->
+            <div class="avatar-frame" id="avatar-frame">
+                <div class="avatar-slot">
+                    <i class="fas fa-user"></i>
+                    <span>Add your photo</span>
+                    <code>images/profile.jepg</code>
+                </div>
+            </div>
             <div class="badge">
                 <span class="dot"></span> Open to Internship Opportunities
             </div>
@@ -37,7 +45,7 @@
                 <span id="typed-text"></span><span class="cursor">|</span>
             </h1>
             <h2>Computer Science Student at BINUS University</h2>
-            <p>Highly-accomplished Computer Science student (3.60 GPA) with strong foundations in Python, MySQL, and Data Analytics. Actively driving impact through organizational leadership and volunteer projects. Ready to contribute technical expertise to real-world software & data challenges.</p>
+            <p>Highly-accomplished Computer Science student with strong foundations in Python, MySQL, and Data Analytics. Actively driving impact through organizational leadership and volunteer projects. Ready to contribute technical expertise to real-world software & data challenges.</p>
             <div class="hero-buttons">
                 <a href="https://github.com/jasonalexanderjsnaldr" target="_blank" class="btn-primary">View Repositories</a>
                 <a href="resumeJason.pdf" download="Jason_Alexander_Wijaya_Resume.pdf" class="btn-resume-download"><i class="fas fa-download"></i> Download Resume</a>
@@ -56,26 +64,6 @@
         <p class="summary-text">Currently in 5th semester at BINUS University, specializing in software logic, database architecture, and data visualization. Combining technical execution with strong collaboration skills honed through organizational roles and volunteer initiatives. Eager to accelerate business processes by structuring data into actionable insights.</p>
         
         <div class="stats-grid">
-            <div class="stat-card gpa-card">
-                <div class="gpa-gauge">
-                    <svg viewBox="0 0 120 70" class="gauge-svg">
-                        <defs>
-                            <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stop-color="#06B6D4" />
-                                <stop offset="100%" stop-color="#3B82F6" />
-                            </linearGradient>
-                        </defs>
-                        <path class="gauge-bg" d="M 10 60 A 50 50 0 0 1 110 60" fill="none" stroke-width="12" stroke-linecap="round"/>
-                        <path class="gauge-fill" d="M 10 60 A 50 50 0 0 1 110 60" fill="none" stroke-width="12" stroke-linecap="round"/>
-                    </svg>
-                    <div class="gpa-value">
-                        <span class="current">3.60</span>
-                        <span class="total">/ 4.00</span>
-                    </div>
-                </div>
-                <p>Cumulative GPA</p>
-            </div>
-
             <div class="stat-card">
                 <h3>5th Semester</h3>
                 <p>BINUS University Progress</p>
@@ -267,22 +255,6 @@
                     </div>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="project-info">
-                    <span class="project-date">2026</span>
-                    <h3>EuroMart Stores : DataVisualization & Insight</h3>
-                    <p>Data Visualization</p>
-                    <p>Conducted an end-to-end analysis of 8,000+ EuroMart transaction records (2011–2014) across 15 European countries to evaluate sales performance, profitability, and discount efficiency. Cleaned and structured raw data in Microsoft Excel and constructed an interactive executive dashboard in Tableau using calculated fields, spatial maps, Pareto charts, waterfall diagrams, and heatmaps. Uncovered critical business insights, including a -Rp48,981 cumulative loss driven by discounts over 20%, 5 unprofitable markets led by the Netherlands (-Rp12,919), and persistent margin deficits in the Tables sub-category, providing actionable pricing recommendations to eliminate key loss drivers.</p>
-                    <div class="tech-stack">
-                        <span>Tableau</span>
-                        <span>Excel</span>
-                        <span>Python</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github.com/jasonalexanderjsnaldr/Data-Visualization" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -296,12 +268,13 @@
                 <div class="timeline-date">[ 2025 – 2026 ]</div>
                 <div class="timeline-content">
                     <h3>Member — HIMTI BINUS</h3>
-                    <p>Coordinated event planning and served as Event Coordinator for school of Computer Science Programs,including TECHNO,SESVENT,and FEAST in 2025,overseeing logistics and end-to-end event execution</p>
+                    <p>Coordinated 5 main events reaching 500+ attendees, collaborating with 150+ committee members across divisions</p>
                     <div class="tags">
                         <span>Event Management Division</span>
                         <span>Sponsorship Division</span>
                     </div>
-                    <div class="photo-gallery" data-name="himti" data-count="6" data-captions="Techno Certificate|Sesvent Certificate|Techno Event|Sesvent Event|Company Visit to Pura Kudus|FEAST Event"></div>
+                    <!-- FOTO: simpan di folder files/foto/, foto/, atau images/ (di sebelah index.html) dengan nama himti-1.jpg, himti-2.jpg, dst. Ubah data-count untuk jumlah foto, data-captions untuk keterangan (pisahkan dengan |) -->
+                    <div class="photo-gallery" data-name="himti" data-count="6" data-captions="Certificate of Appreciation|HIMTI certificate|HIMTI event 1|HIMTI event 2|HIMTI event 3|HIMTI event 4"></div>
                 </div>
             </div>
             <div class="timeline-item">
@@ -314,7 +287,8 @@
                         <span>Event Division</span>
                         <span>Event Logistics</span>
                     </div>
-                    <div class="photo-gallery" data-name="waisak" data-count="5" data-captions="At Borobudur Temple|Volunteer Certificate|Hanging Lanterns|My Friends and I|My Team and I"></div>
+                    <!-- FOTO: simpan di folder files/foto/, foto/, atau images/ (di sebelah index.html) dengan nama waisak-1.jpg, waisak-2.jpg, dst. Ubah data-count untuk jumlah foto, data-captions untuk keterangan (pisahkan dengan |) -->
+                    <div class="photo-gallery" data-name="waisak" data-count="5" data-captions="Waisak at Borobudur Temple|Volunteer certificate|Waisak lanterns|With fellow volunteers|Volunteer team"></div>
                 </div>
             </div>
         </div>
@@ -325,7 +299,7 @@
         <div class="footer-content">
             <div class="footer-text">
                 <span class="section-tag">GET IN TOUCH</span>
-                <h2>Ready to contribute as a Data Analyst/Business Analyst/BI Analyst/Data Engineer Intern.</h2>
+                <h2>Ready to contribute as a Data Analyst/Data Scientist/Data Engineer Intern.</h2>
             </div>
             
             <div class="contact-grid">
