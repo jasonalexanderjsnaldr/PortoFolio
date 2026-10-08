@@ -353,61 +353,6 @@ a {
     font-size: 0.9rem;
 }
 
-/* --- GPA GAUGE --- */
-.gpa-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-}
-
-.gpa-gauge {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.gauge-svg {
-    width: 120px;
-    height: 70px;
-    overflow: visible;
-}
-
-.gauge-bg {
-    stroke: var(--border-color);
-}
-
-.gauge-fill {
-    stroke: url(#gaugeGradient);
-    stroke-dasharray: 157.08;
-    stroke-dashoffset: 157.08;
-    transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);
-    filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.5));
-}
-
-.gpa-value {
-    display: flex;
-    align-items: baseline;
-    gap: 0.2rem;
-    font-family: 'Outfit', sans-serif;
-}
-
-.gpa-value .current {
-    font-size: 2.5rem;
-    font-weight: 700;
-    background: var(--gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.gpa-value .total {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--text-muted);
-}
-
 /* --- SKILLS --- */
 .skills-grid {
     display: grid;
@@ -725,14 +670,6 @@ a {
     .section { padding: 4rem 5%; }
     .footer { padding: 4rem 5% 2rem; }
     
-    .gpa-gauge {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    .gpa-value .current {
-        font-size: 2rem;
-    }
-    
     .social-links {
         justify-content: center;
     }
@@ -989,8 +926,8 @@ body{transition:background-color .4s,color .4s}
 
 /* ===== extra4.css — galeri foto kegiatan + lightbox ===== */
 .photo-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-top:1.5rem}
-.photo-slot{position:relative;margin:0;aspect-ratio:4/3;border-radius:14px;overflow:hidden;border:1px solid var(--border-color);background:var(--card-bg);transition:var(--transition)}
-.photo-slot img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.photo-slot{position:relative;margin:0;aspect-ratio:1;border-radius:14px;overflow:hidden;border:1px solid var(--border-color);background:var(--card-bg);transition:var(--transition)}
+.photo-slot img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 30%;transition:transform .5s}
 .photo-slot:not(.empty){cursor:zoom-in}
 .photo-slot:not(.empty):hover{border-color:var(--accent-1);transform:translateY(-4px);box-shadow:0 12px 30px rgba(6,182,212,.2)}
 .photo-slot:not(.empty):hover img{transform:scale(1.08)}
@@ -1009,3 +946,20 @@ body{transition:background-color .4s,color .4s}
 .lightbox.open img{transform:none}
 .lightbox p{margin-top:1rem;color:#cbd5e1;font-size:.9rem}
 .lightbox button{position:absolute;top:1rem;right:1.4rem;padding:0;border:0;background:none;color:#fff;font-size:2.4rem;line-height:1;cursor:pointer}
+
+/* ===== extra5.css — foto profil bulat di hero (v2: posisi absolut, ukuran presisi) ===== */
+.avatar-frame{position:relative;width:280px;height:280px;margin-bottom:.5rem;flex-shrink:0}
+.avatar-frame::before{content:'';position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from var(--a),var(--accent-1),var(--accent-2),transparent 45%,var(--accent-1));animation:spin 6s linear infinite}
+.avatar-frame::after{content:'';position:absolute;inset:0;border-radius:50%;background:var(--bg-color);box-shadow:0 0 40px rgba(6,182,212,.3)}
+.avatar-frame img,.avatar-frame .avatar-slot{position:absolute;inset:6px;z-index:1;margin:0;border-radius:50%;overflow:hidden}
+.avatar-frame img{width:100%;height:100%;display:block;object-fit:cover;object-position:center 15%;transition:transform .5s}
+.avatar-frame.filled:hover img{transform:scale(1.07)}
+.avatar-slot{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;background:var(--card-bg);color:var(--text-muted);text-align:center;padding:1rem}
+.avatar-slot i{font-size:1.7rem;color:var(--accent-1)}
+.avatar-slot span{font-weight:600;font-size:.82rem}
+.avatar-slot code{font-size:.63rem;opacity:.7;word-break:break-all}
+@media (max-width:768px){.avatar-frame{width:210px;height:210px}}
+@media (prefers-reduced-motion:reduce){.avatar-frame::before{animation:none}}
+
+/* ===== extra6.css — turunkan sedikit badge 'Open to Internship' ===== */
+.badge{margin-top:1rem}
